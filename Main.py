@@ -188,4 +188,58 @@ def release_date_analysis(df):
 
     #map and look for clusters
     print(yearDF.value_counts())
-release_date_analysis(df)
+
+def track_popularity(df):
+    #print(df['Track Popularity'])
+    trackPopRounded = []
+    for index,row in df.iterrows():
+        x = (row['Track Popularity'])
+        x = x/10
+        trackPopRounded.append(int(x))
+        print(int(x))
+
+def artist_popularity(df):
+    artistPopRounded = []
+    for index, row in df.iterrows():
+        x = (row['Artist Popularity'])
+        x = x/10
+        artistPopRounded.append(int(x))
+        print(int(x))
+
+def label(df):
+    print(df['Album Label'].value_counts())
+
+def track_length(df):
+    for index, row in df.iterrows():
+        x = row['Track Duration']
+        x = x/1000
+        print(x)
+
+def Score(df, var):
+    print(var)
+    for index, row in df.iterrows():
+        x = row[var]
+        x = x*10
+        print(int(x))
+
+def loudnessScore(df):
+    for index, row in df.iterrows():
+        x = row['Loudness']
+        print(x)
+
+def withConfidenceScore(df, var):
+    scoreList = []
+    for index, row in df.iterrows():
+        x = row[var]
+        yinput = var + " Confidence"
+        y = row[yinput]
+        if y>.7:
+            scoreList.append(x)
+        print(x)
+        print(y)
+    df2 = pd.DataFrame(scoreList)
+    print(df2.value_counts())
+
+withConfidenceScore(df, "Key")
+
+#print(df)
