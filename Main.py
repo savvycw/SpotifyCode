@@ -5,6 +5,8 @@ import os
 import dotenv
 from dotenv import load_dotenv
 from pathlib import Path
+import numpy as np
+import re
 
 load_dotenv()
 
@@ -159,87 +161,6 @@ df = pd.DataFrame({"Track ID" : track_id_list,
                    "Time Signature Confidence": time_sig_confidence_list,
                    "Key": key_list,
                    "Key Confidence": key_confidence_list})
+df.to_json("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\SpotifyDF.json")
 
-
-def genre_analysis_artist(df):
-    artist_genre_analysis = []
-    for index, row in df.iterrows():
-        for x in row["Artist Genre"]:
-            artist_genre_analysis.append(x)
-    genreDF = pd.DataFrame(artist_genre_analysis)
-    print(genreDF.value_counts())
-
-def release_date_analysis(df):
-    release_year = []
-    for index, row in df.iterrows():
-        x = str(row['Release Date'])
-        x = x.split('-')
-        release_year.append(x[0])
-    yearDF = pd.DataFrame(release_year)
-    yearDF = yearDF.astype(int)
-    min = yearDF.min()
-    max = yearDF.max()
-
-    #make the larger the range the less important the year is
-    range = max - min
-
-    #do a prefrence on newer or older
-    mean = yearDF.mean()
-
-    #map and look for clusters
-    print(yearDF.value_counts())
-
-def track_popularity(df):
-    #print(df['Track Popularity'])
-    trackPopRounded = []
-    for index,row in df.iterrows():
-        x = (row['Track Popularity'])
-        x = x/10
-        trackPopRounded.append(int(x))
-        print(int(x))
-
-def artist_popularity(df):
-    artistPopRounded = []
-    for index, row in df.iterrows():
-        x = (row['Artist Popularity'])
-        x = x/10
-        artistPopRounded.append(int(x))
-        print(int(x))
-
-def label(df):
-    print(df['Album Label'].value_counts())
-
-def track_length(df):
-    for index, row in df.iterrows():
-        x = row['Track Duration']
-        x = x/1000
-        print(x)
-
-def Score(df, var):
-    print(var)
-    for index, row in df.iterrows():
-        x = row[var]
-        x = x*10
-        print(int(x))
-
-def loudnessScore(df):
-    for index, row in df.iterrows():
-        x = row['Loudness']
-        print(x)
-
-def withConfidenceScore(df, var):
-    scoreList = []
-    for index, row in df.iterrows():
-        x = row[var]
-        yinput = var + " Confidence"
-        y = row[yinput]
-        if y>.7:
-            scoreList.append(x)
-        print(x)
-        print(y)
-    df2 = pd.DataFrame(scoreList)
-    print(df2.value_counts())
-
-withConfidenceScore(df, "Key")
-
-#print(df)
+print(df['Artist Name'],df["Track Name"])
