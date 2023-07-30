@@ -163,4 +163,6 @@ df = pd.DataFrame({"Track ID" : track_id_list,
                    "Key Confidence": key_confidence_list})
 df.to_json("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\SpotifyDF.json")
 
-print(df['Artist Name'],df["Track Name"])
+# results = sp.search(q='my playlist', type='playlist')
+# for result in results['playlists']['items']:
+#   print(result['name'])
