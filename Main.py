@@ -42,9 +42,7 @@ time_sig_confidence_list = []#Check
 key_list = [] #Check
 key_confidence_list = [] #Check
 
-playlist = sp.playlist("spotify:playlist:0QjKBUqAyz6PKzuEKOL8pS")
-
-for track in sp.playlist_tracks("spotify:playlist:0QjKBUqAyz6PKzuEKOL8pS")["items"]:
+for track in sp.playlist_tracks("spotify:playlist:1JnsWOy6CHnGChbP9fLhQV")["items"]:
     #URI
     track_id = track["track"]["uri"]
     track_id_list.append(track_id)
