@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib
 
 df = pd.read_json("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\SpotifyDF.json")
 
@@ -19,18 +20,20 @@ def release_date_analysis(df):
         release_year.append(x[0])
     yearDF = pd.DataFrame(release_year)
     yearDF = yearDF.astype(int)
-    min = yearDF.min()
-    max = yearDF.max()
+    # ax = yearDF.plot.hist()
+    # min = yearDF.min()
+    # max = yearDF.max()
 
     #make the larger the range the less important the year is
-    range = max - min
+    # range = max - min
 
     #do a prefrence on newer or older
     mean = yearDF.mean()
 
     #map and look for clusters
     years = yearDF.value_counts()
-    return range, mean, years
+    # ax
+    #return range, mean, years
 
 
 def track_popularity(df):
@@ -38,18 +41,17 @@ def track_popularity(df):
     trackPopRounded = []
     for index,row in df.iterrows():
         x = (row['Track Popularity'])
-        x = x/10
+        # x = x/10
         trackPopRounded.append(int(x))
     trackPopRoundedDF = pd.DataFrame(trackPopRounded)
-    trackPopRoundedDF = pd.DataFrame(trackPopRoundedDF.value_counts())
+    trackPopRoundedDF = pd.DataFrame(trackPopRoundedDF.value_counts(), index = False)
     lastRow = 0
     total = len(trackPopRoundedDF)
     signifigance = (total/10)*2
     for index,row in trackPopRoundedDF.iterrows():
         if (row['count']) > signifigance:
             track_popularity_mode.append(index[0])
-    
-    return track_popularity_mode
+    return trackPopRoundedDF
 
 def artist_popularity(df):
     artistPopRounded = []
@@ -149,5 +151,7 @@ def withConfidenceScore(df, var):
             finalList.append(index[0])
     print(finalList)
 
-print(tempo(df))
+reccomend = {}
+
+release_date_analysis(df)
 #add strength to the score ones( percentage of the values) highere the percentage the more it matters
