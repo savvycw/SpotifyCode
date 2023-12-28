@@ -9,9 +9,9 @@ import numpy as np
 import re
 import buildingAnalysis
 
-load_dotenv()
+load_dotenv("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\NewSpotifyCode\\SpotifyCode\\env\\pyvenv.cfg")
 
-SPOTIPY_CLIENT_ID = os.getenv('ID')
+SPOTIPY_CLIENT_ID = os.getenv('SPOTIPY_CLIENT_ID')
 SPOTIPY_CLIENT_SECRET = os.getenv('SECRET')
 
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SPOTIPY_CLIENT_ID,
