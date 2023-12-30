@@ -190,6 +190,14 @@ def load_playlist(url):
                     "Time Signature Confidence": time_sig_confidence_list,
                     "Key": key_list,
                     "Key Confidence": key_confidence_list})
+    df["Danceability"] = df["Danceability"].multiply(100)
+    df["Acousticness"] = df["Acousticness"].multiply(100)
+    df["Energy"] = df["Energy"].multiply(100)
+    df["Instrumentalness"] = df["Instrumentalness"].multiply(100)
+    df["Liveness"] = df["Liveness"].multiply(100)
+    df["Speachiness"] = df["Speachiness"].multiply(100)
+    df["Valence"] = df["Valence"].multiply(100)
+
     return df
 # df.to_json("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\SpotifyDF.json")
 
