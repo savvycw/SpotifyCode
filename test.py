@@ -6,11 +6,21 @@ import pandas as pd
 df = pd.read_json("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\SpotifyDF.json")
 #track_pop = buildingAnalysis.track_popularity(df)
 
-colors = ['green', 'blue']
-arr = df['Track Popularity']
-arg = df['Artist Popularity']
-#print(track_pop)
-fig, ax = plt.subplots()
-ax.hist((arr,arg), bins=20, range=(0,100), density = True, histtype ='bar', color = colors, label = colors)
-plt.legend(prop ={'size': 10})
-plt.show()
+# colors = ['green', 'blue']
+# arr = df['Track Popularity']
+# arg = df['Artist Popularity']
+# #print(track_pop)
+# fig, ax = plt.subplots()
+# ax.hist((arr,arg), bins=20, range=(0,100), density = True, histtype ='bar', color = colors, label = colors)
+# plt.legend(prop ={'size': 10})
+# plt.show()
+color_dict = {"Track Popularity": "blue",
+              "Artist Popularity": "orange",
+              "Danceability": "green",
+              "Acousticness": "red",
+              "Energy": "purple",
+              "Instrumentalness": "brown",
+              "Liveness": "pink",
+              "Speachiness": "gray",
+              "Valence": "cyan"}
+print(color_dict["Acousticness"])

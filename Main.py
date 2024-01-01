@@ -130,7 +130,7 @@ def load_playlist(url):
         
         #Track name
         track_name = track["track"]["name"]
-        print(track_name)
+        # print(track_name)
         track_name_list.append(track_name)
         track_duration = track["track"]["duration_ms"]
         track_duration_list.append(track_duration)
