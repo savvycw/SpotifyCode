@@ -3,3 +3,5 @@
 env/
 __pycache__/
 *.cfg
+*.cache
+*.cache-savvythenobody
