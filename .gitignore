@@ -5,3 +5,4 @@ __pycache__/
 *.cfg
 *.cache
 *.cache-savvythenobody
+test.py

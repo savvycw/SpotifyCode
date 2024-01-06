@@ -8,6 +8,7 @@ from pathlib import Path
 import numpy as np
 import re
 import buildingAnalysis
+import datetime
 
 load_dotenv("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\NewSpotifyCode\\SpotifyCode\\env\\pyvenv.cfg")
 
@@ -197,7 +198,8 @@ def load_playlist(url):
     df["Liveness"] = df["Liveness"].multiply(100)
     df["Speachiness"] = df["Speachiness"].multiply(100)
     df["Valence"] = df["Valence"].multiply(100)
-
+    df["Track Duration"] = df["Track Duration"].div(1000)
+    
     return df
 # df.to_json("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\SpotifyDF.json")
 
