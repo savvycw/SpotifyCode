@@ -1,7 +1,7 @@
 import streamlit as st
 import Main
 import pandas as pd
-import buildingAnalysis
+#import buildingAnalysis
 import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.patches as mpatches
