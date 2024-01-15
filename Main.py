@@ -10,7 +10,7 @@ import re
 import buildingAnalysis
 import datetime
 
-load_dotenv("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\NewSpotifyCode\\SpotifyCode\\env\\pyvenv.cfg")
+# load_dotenv("C:\\Users\\savan\\OneDrive\\Documents\\Codeee\\NewSpotifyCode\\SpotifyCode\\env\\pyvenv.cfg")
 
 # SPOTIPY_CLIENT_ID = os.getenv('SPOTIPY_CLIENT_ID')
 # SPOTIPY_CLIENT_SECRET = os.getenv('SECRET')
