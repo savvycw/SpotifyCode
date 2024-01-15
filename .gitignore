@@ -6,3 +6,6 @@ __pycache__/
 *.cache
 *.cache-savvythenobody
 test.py
+buildingLyrics.ipynb
+buildingAnalysis.py
+Test.ipynb
