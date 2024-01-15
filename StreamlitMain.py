@@ -27,12 +27,14 @@ st.markdown("Paste playlist URL and press 'Load Playlist' to see stats about you
 url = st.text_input("Paste Playlist URL")
 
 placeholder = st.empty()
+SPOTIFY_CLIENT_ID = st.secrets["SPOTIPY_CLIENT_ID"]
+SECRET = st.secrets["SECRET"]
 
 if st.button('Load Playlist'):
     with placeholder.container():
         loading = st.write("Loading your Playlist, This may take some time, especially if the playlist is long")
     id = (url.split("/"))[-1]
-    df = Main.load_playlist(url)
+    df = Main.load_playlist(url, SPOTIFY_CLIENT_ID, SECRET)
     st.session_state['df'] = df
     placeholder.empty()
     st.write("Your Analysis is ready")
@@ -122,31 +124,35 @@ if st.button('Load Playlist'):
         c1, c2 = st.columns([2,1])
         c1.plotly_chart(fig)
         c2.write("Valence: 100 = Cheerful/Happy, 0 = Sad/Angry \n\r Speachiness: 100 = Spoken(talk show/audio book), 0 = Totaly Sung \n\r Liveness: 100 = Likely a Live Show, 0 = Likely Recorded \n\r Instrumentalness: 100 = No Vocal Content, 0 = Contains Vocal Content(Spoken or Sung) \n\r Energy: 100 = High Energy, 0 = Low Energy \n\r Acousticness: 100 = Likely Acoustic, 0 = Likely Not Acoustic \n\r Dancabliltiy: 100 = Very Dancable, 0 = Very Undancable \n\r Popularity: 100 = Very Popular, 0 = Very Unpopular")
+        #c2.write(r"$\textsf{\scriptsize Valence: 100 = Cheerful/Happy, 0 = Sad/Angry }$")
 
-    st.subheader("Release Year")
-    st.plotly_chart(fig1)
-    st.subheader("Loudness in db")
-    st.plotly_chart(fig2)
-    st.subheader("Record Labels")
-    st.plotly_chart(fig3)
-    st.subheader("Track Duration in Seconds")
-    st.plotly_chart(fig4)
-    st.subheader("Tempo in bpm")
-    st.plotly_chart(fig8)
-    st.subheader("Mode")
-    st.plotly_chart(fig5)
-    st.subheader("Key")
-    st.plotly_chart(fig6)
-    st.subheader("Time Signature")
-    st.plotly_chart(fig7)
+    with st.container():
+        c1, c2, c3 = st.columns([2,5,1])
+        c2.subheader("Release Year")
+        c2.plotly_chart(fig1)
+        c2.subheader("Loudness in db")
+        c2.plotly_chart(fig2)
+        c2.subheader("Record Labels")
+        c2.plotly_chart(fig3)
+        c2.subheader("Track Duration in Seconds")
+        c2.plotly_chart(fig4)
+        c2.subheader("Tempo in bpm")
+        c2.plotly_chart(fig8)
+        c2.subheader("Mode")
+        c2.plotly_chart(fig5)
+        c2.subheader("Key")
+        c2.plotly_chart(fig6)
+        c2.subheader("Time Signature")
+        c2.plotly_chart(fig7)
 
 st.markdown("Data retrieval is thanks to Spotify API")
 
 #****************************************************************************
 #
 # from here: I will work on a good way to show artists and genres in playlist
-# Commenting on data. Ex: "You like more recent songs"
+# Comparing to other playlists
 # Lyrical Analysis
 # Recomendations
+# Commenting on data. Ex: "You like more recent songs"
 #
 #*****************************************************************************
