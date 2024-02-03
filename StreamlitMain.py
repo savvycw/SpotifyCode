@@ -1,4 +1,6 @@
 import streamlit as st
+import circlify
+from collections import Counter
 import Main
 import pandas as pd
 #import buildingAnalysis
@@ -27,14 +29,14 @@ st.markdown("Paste playlist URL and press 'Load Playlist' to see stats about you
 url = st.text_input("Paste Playlist URL")
 
 placeholder = st.empty()
-SPOTIFY_CLIENT_ID = st.secrets["SPOTIPY_CLIENT_ID"]
-SECRET = st.secrets["SECRET"]
+# SPOTIFY_CLIENT_ID = st.secrets["SPOTIPY_CLIENT_ID"]
+# SECRET = st.secrets["SECRET"]
 
 if st.button('Load Playlist'):
     with placeholder.container():
         loading = st.write("Loading your Playlist, This may take some time, especially if the playlist is long")
     id = (url.split("/"))[-1]
-    df = Main.load_playlist(url, SPOTIFY_CLIENT_ID, SECRET)
+    df = Main.load_playlist(url)
     st.session_state['df'] = df
     placeholder.empty()
     st.write("Your Analysis is ready")
@@ -68,13 +70,20 @@ if st.button('Load Playlist'):
     fig2.update_layout(xaxis_range=[-60, 0])
 
 
-    arg3 = loaded_df1["Album Label"].value_counts()
-    ylist = []
-    for x in arg3.index:
-        ylist.append(x)
+    # arg3 = loaded_df1["Album Label"].value_counts()
+    # ylist = []
+    # for x in arg3.index:
+    #     ylist.append(x)
 
-    fig3 = go.Figure(go.Bar(x = arg3.values, y=ylist,orientation='h', marker_color='gold'))
-
+    # fig3 = go.Figure(go.Bar(x = arg3.values, y=ylist,orientation='h', marker_color='gold'))
+    # fig3.update_layout(uniformtext_minsize=1, uniformtext_mode='hide')
+    # fig3.update_layout(
+    #     font=dict(
+    #         family="Courier New, monospace",
+    #         size=5,
+    #         color="RebeccaPurple"
+    #     )
+    # )
     fig4 = ff.create_distplot([loaded_df1["Track Duration"]],  ['Track Duration'], bin_size= 5, histnorm = '', show_curve = False, colors=['cyan'])
 
     fig8 = ff.create_distplot([loaded_df1["Tempo"]],  ['Tempo'], bin_size= 5, histnorm = '', show_curve = False, colors=['limegreen'])
@@ -82,7 +91,12 @@ if st.button('Load Playlist'):
     loaded_df1["Mode String"] = loaded_df1["Mode"]
     loaded_df1["Key String"] = loaded_df1["Key"]
 
+    genre_list = []
+    artist_list = []
+
     for x, row in loaded_df1.iterrows():
+        for y in loaded_df1["Artist Genre"][x]:
+            genre_list.append(y)
         if loaded_df1["Mode"][x] == 1:
             loaded_df1["Mode String"][x] = "Major"
         if loaded_df1["Mode"][x] == 0:
@@ -113,12 +127,52 @@ if st.button('Load Playlist'):
             loaded_df1["Key String"][x] = "B"
         
 
-    fig5 = px.pie(loaded_df1, names= 'Mode String', color_discrete_sequence=px.colors.qualitative.Set2)
+    fig5 = px.pie(loaded_df1, names= 'Mode String', color_discrete_sequence=px.colors.qualitative.Set1)
 
-    fig6 = px.pie(loaded_df1, names= 'Key String', color_discrete_sequence=px.colors.qualitative.Bold)
+    fig6 = px.pie(loaded_df1, names= 'Key String', color_discrete_sequence=px.colors.qualitative.Prism)
 
-    fig7 = px.pie(loaded_df1, names = 'Time Signature', color_discrete_sequence=px.colors.qualitative.Safe)
+    fig7 = px.pie(loaded_df1, names = 'Time Signature', color_discrete_sequence=px.colors.qualitative.Bold)
 
+    fig9 = px.pie(loaded_df1, names = 'Artist Name', hole = .5, color_discrete_sequence=px.colors.qualitative.Alphabet)
+
+    circles = circlify.circlify(
+    Counter(genre_list).values(), 
+    show_enclosure=False, 
+    target_enclosure=circlify.Circle(x=0, y=0, r=1)
+)
+
+    fig10, ax = plt.subplots(figsize=(10,10))
+
+    # Title
+    ax.set_title('Genres')
+
+    # Remove axes
+    ax.axis('off')
+
+    # Find axis boundaries
+    lim = max(
+        max(
+            abs(circle.x) + circle.r,
+            abs(circle.y) + circle.r,
+        )
+        for circle in circles
+    )
+    plt.xlim(-lim, lim)
+    plt.ylim(-lim, lim)
+
+    # list of labels
+    labels = Counter(genre_list).keys()
+
+    # print circles
+    for circle, label in zip(circles, labels):
+        x, y, r = circle
+        ax.add_patch(plt.Circle((x, y), r, alpha=0.2, linewidth=2))
+        plt.annotate(
+            label, 
+            (x,y ) ,
+            va='center',
+            ha='center'
+        )
     with st.container():
         st.subheader("Audio Features")
         c1, c2 = st.columns([2,1])
@@ -132,8 +186,8 @@ if st.button('Load Playlist'):
         c2.plotly_chart(fig1)
         c2.subheader("Loudness in db")
         c2.plotly_chart(fig2)
-        c2.subheader("Record Labels")
-        c2.plotly_chart(fig3)
+        # c2.subheader("Record Labels")
+        # c2.plotly_chart(fig3)
         c2.subheader("Track Duration in Seconds")
         c2.plotly_chart(fig4)
         c2.subheader("Tempo in bpm")
@@ -144,6 +198,9 @@ if st.button('Load Playlist'):
         c2.plotly_chart(fig6)
         c2.subheader("Time Signature")
         c2.plotly_chart(fig7)
+        c2.subheader("Artists")
+        c2.plotly_chart(fig9)
+        c2.pyplot(fig10)
 
 st.markdown("Data retrieval is thanks to Spotify API")
 
