@@ -206,10 +206,13 @@ st.markdown("Data retrieval is thanks to Spotify API")
 
 #****************************************************************************
 #
-# from here: I will work on a good way to show artists and genres in playlist
 # Comparing to other playlists
 # Lyrical Analysis
 # Recomendations
 # Commenting on data. Ex: "You like more recent songs"
 #
+#
+# Use baseian formula to decide if songs fit in playlist
+# Use Kmean clustering to group then see how far new point is from cluster
+# Cosine Similarity
 #*****************************************************************************
